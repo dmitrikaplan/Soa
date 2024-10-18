@@ -5,6 +5,7 @@ plugins {
     id("io.spring.dependency-management") version "1.1.6"
 }
 
+
 group = "ru.kaplaan"
 version = "0.0.1-SNAPSHOT"
 
