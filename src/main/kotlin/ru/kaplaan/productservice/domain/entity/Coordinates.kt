@@ -1,6 +1,12 @@
 package ru.kaplaan.productservice.domain.entity
 
+import com.fasterxml.jackson.annotation.JsonProperty
+import jakarta.validation.constraints.Max
+import ru.kaplaan.productservice.domain.validation.Greater
+
 class Coordinates(
-    val x: Long,
-    val y: Float
+    @field:Greater(value = -642)
+    val x: Int,
+    @field:Max(value = 643)
+    val y: Int
 )
