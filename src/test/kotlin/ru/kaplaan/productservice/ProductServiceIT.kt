@@ -15,7 +15,6 @@ import org.springframework.test.web.servlet.post
 import ru.kaplaan.productservice.domain.entity.Coordinates
 import ru.kaplaan.productservice.domain.entity.Product
 import ru.kaplaan.productservice.repository.ProductRepository
-import ru.kaplaan.productservice.service.ProductService
 import ru.kaplaan.productservice.web.dto.CoordinatesDto
 import ru.kaplaan.productservice.web.dto.ProductDto
 import ru.kaplaan.productservice.web.dto.UnitOfMeasure
@@ -39,15 +38,17 @@ class ProductServiceIT {
 
     @BeforeEach
     fun beforeEach(){
-        val product1 = Product(
-            name = "productName",
-            coordinates = Coordinates(x = 10, y = 20),
-            price = 100,
-            manufactureCost = 100.0f,
-            unitOfMeasure = UnitOfMeasure.KILOGRAMS,
-            owner = null
+        val products = listOf(
+            Product(
+                name = "productName",
+                coordinates = Coordinates(x = 10, y = 20),
+                price = 100,
+                manufactureCost = 100.0f,
+                unitOfMeasure = UnitOfMeasure.KILOGRAMS,
+                owner = null
+            )
         )
-        productRepository.saveAll(listOf(product1))
+        productRepository.saveAll(products)
     }
 
     @AfterEach
