@@ -12,6 +12,8 @@ import ru.kaplaan.productservice.service.ProductService
 import kotlin.reflect.KProperty1
 import kotlin.reflect.full.memberProperties
 
+const val pageSize = 10
+
 @Service
 class ProductServiceImpl(
     private val productRepository: ProductRepository
@@ -39,20 +41,12 @@ class ProductServiceImpl(
     }
 
     override fun getAll(
-        fieldName: String,
-        filters: List<ProductFilter>,
-        pageSize: Int,
         pageNumber: Int
     ): List<Product> {
 
-        val sortedProducts = sortProductsByField(
-            products = productRepository.findAll(),
-            fieldName = fieldName
-        )
+        val sortedProducts = productRepository.findAll().sortedBy { it.id }
 
         //TODO filter
-
-
 
         val productsPages = sortedProducts.chunked(pageSize)
 
@@ -60,19 +54,5 @@ class ProductServiceImpl(
             throw PageNumberTooLargeException()
 
         return productsPages[pageNumber - 1]
-    }
-
-    private fun sortProductsByField(products: List<Product>, fieldName: String): List<Product> {
-        try{
-            val property =
-                Product::class.memberProperties
-                    .firstOrNull {it.name == fieldName}
-                    ?.let { it as? KProperty1<Product, Comparable<Any>> }
-                    ?: throw FieldNotFoundException()
-
-            return products.sortedBy { property.get(it)}
-        } catch (e: ClassCastException){
-            throw FieldNotComparableException()
-        }
     }
 }

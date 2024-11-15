@@ -33,14 +33,12 @@ class ProductController(
         return productService.getById(id).toDto()
     }
 
-    @GetMapping("/{fieldName}/{pageSize}/{pageNumber}")
+    @GetMapping("/{pageNumber}")
     fun getAllProducts(
-        @PathVariable @Valid @NotEmpty fieldName: String,
-        @PathVariable @Min(1) pageSize: Int,
         @PathVariable @Min(1) pageNumber: Int,
-        @RequestBody @Valid filters: List<ProductFilter>
+        //@RequestBody @Valid filters: List<ProductFilter>
     ): List<ProductDto> {
-        return productService.getAll(fieldName, filters, pageSize, pageNumber).toDto()
+        return productService.getAll(pageNumber).toDto()
     }
 
     @PutMapping

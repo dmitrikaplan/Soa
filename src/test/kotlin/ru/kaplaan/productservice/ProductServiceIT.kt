@@ -1,12 +1,15 @@
 package ru.kaplaan.productservice
 
+import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.ObjectMapper
+import org.hibernate.validator.internal.constraintvalidators.bv.number.bound.MaxValidatorForNumber
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.http.MediaType
 import org.springframework.test.web.servlet.MockMvc
+import org.springframework.test.web.servlet.get
 import org.springframework.test.web.servlet.post
 import ru.kaplaan.productservice.web.dto.CoordinatesDto
 import ru.kaplaan.productservice.web.dto.ProductDto
@@ -19,6 +22,9 @@ import ru.kaplaan.productservice.web.dto.UnitOfMeasure
     ],
 )
 class ProductServiceIT {
+
+    @Autowired
+    private lateinit var maxValidatorForNumber: MaxValidatorForNumber
 
     @Autowired
     lateinit var mvc: MockMvc
@@ -40,10 +46,6 @@ class ProductServiceIT {
         assertEquals(product, productFromServer)
     }
 
-
-//    fun getProductById(id: Long): Product {}
-
-
     fun saveProduct(productDto: ProductDto): ProductDto {
        return mvc.post("/products") {
             content = objectMapper.writeValueAsString(productDto)
@@ -58,5 +60,28 @@ class ProductServiceIT {
             .let {
                 objectMapper.readValue(it, ProductDto::class.java)
             }
+    }
+
+
+    fun getAllProducts(): List<ProductDto>? {
+        return mvc.get("products/1")
+            .andExpect {
+                status {
+                    isOk()
+                }
+            }.andReturn()
+            .response
+            .contentAsString
+            .let {
+                toParametrizedList(it)
+            }
+    }
+
+
+    fun toParametrizedList(json: String): List<ProductDto>? {
+        return objectMapper.readValue(
+            json,
+            object: TypeReference<List<ProductDto>>() {}
+            )
     }
 }

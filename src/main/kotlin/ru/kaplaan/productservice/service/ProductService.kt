@@ -17,5 +17,5 @@ interface ProductService {
 
     fun deleteById(id: Int)
 
-    fun getAll(fieldName: String, filters: List<ProductFilter>, pageSize: Int, pageNumber: Int): List<Product>
+    fun getAll(pageNumber: Int): List<Product>
 }

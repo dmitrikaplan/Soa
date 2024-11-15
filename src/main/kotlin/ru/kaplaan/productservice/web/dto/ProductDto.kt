@@ -13,7 +13,7 @@ data class ProductDto(
     @field:NotNull(message = "Имя не может быть null!", groups = [OnCreate::class, OnUpdate::class])
     @field:NotEmpty(message = "Строка не может быть пустой!", groups = [OnCreate::class, OnUpdate::class])
     val name: String,
-    @field:NotNull(message = "Coordinates не можкт быть null!", groups = [OnCreate::class, OnUpdate::class])
+    @field:NotNull(message = "Coordinates не может быть null!", groups = [OnCreate::class, OnUpdate::class])
     val coordinates: CoordinatesDto,
     @field:Min(1, message = "Стоймость должна быть больше 0!", groups = [OnCreate::class, OnUpdate::class])
     val price: Long?,
