@@ -2,10 +2,12 @@ package ru.kaplaan.productservice
 
 import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.ObjectMapper
+import kotlin.test.assertFailsWith
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.http.MediaType
@@ -14,7 +16,10 @@ import org.springframework.test.web.servlet.get
 import org.springframework.test.web.servlet.post
 import ru.kaplaan.productservice.domain.entity.Coordinates
 import ru.kaplaan.productservice.domain.entity.Product
+import ru.kaplaan.productservice.domain.exception.notFound.ProductNotFoundException
 import ru.kaplaan.productservice.repository.ProductRepository
+import ru.kaplaan.productservice.service.ProductService
+import ru.kaplaan.productservice.service.impl.ProductServiceImpl
 import ru.kaplaan.productservice.web.dto.CoordinatesDto
 import ru.kaplaan.productservice.web.dto.ProductDto
 import ru.kaplaan.productservice.web.dto.UnitOfMeasure
@@ -54,6 +59,27 @@ class ProductServiceIT {
     @AfterEach
     fun afterEach() {
         productRepository.clear()
+    }
+
+    @Test
+    fun `test lookup by id`() {
+      val products = productRepository.findAll();
+      assert(products.size > 0);
+      val target = products.first();
+
+      val service = ProductServiceImpl(productRepository)
+      val retrieved = service.getById(target.id)
+
+      assertEquals(target, retrieved)
+    }
+
+    @Test
+    fun `test lookup failure by id`() {
+      val service = ProductServiceImpl(productRepository)
+      
+      assertFailsWith<ProductNotFoundException>{
+        service.getById(-1)
+      }
     }
 
     @Test
