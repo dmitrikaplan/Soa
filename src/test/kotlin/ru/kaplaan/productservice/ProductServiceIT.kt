@@ -45,13 +45,45 @@ class ProductServiceIT {
     fun beforeEach(){
         val products = listOf(
             Product(
-                name = "productName",
+                name = "Menstrual pads",
                 coordinates = Coordinates(x = 10, y = 20),
                 price = 100,
                 manufactureCost = 100.0f,
-                unitOfMeasure = UnitOfMeasure.KILOGRAMS,
-                owner = null
-            )
+                unitOfMeasure = UnitOfMeasure.UNITS,
+                owner = null,
+            ),
+            Product(
+                name = "Menstrual cups",
+                coordinates = Coordinates(x = 10, y = 20),
+                price = 250,
+                manufactureCost = 100.0f,
+                unitOfMeasure = UnitOfMeasure.UNITS,
+                owner = null,
+            ),
+            Product(
+                name = "Ibuprofen",
+                coordinates = Coordinates(x = 10, y = 20),
+                price = 1337,
+                manufactureCost = 100.0f,
+                unitOfMeasure = UnitOfMeasure.MILLIGRAMS,
+                owner = null,
+            ),
+            Product(
+                name = "Noshpa",
+                coordinates = Coordinates(x = 10, y = 20),
+                price = 4848,
+                manufactureCost = 500.0f,
+                unitOfMeasure = UnitOfMeasure.MILLIGRAMS,
+                owner = null,
+            ),
+            Product(
+                name = "Candles",
+                coordinates = Coordinates(x = 10, y = 20),
+                price = 4848,
+                manufactureCost = 500.0f,
+                unitOfMeasure = UnitOfMeasure.UNITS,
+                owner = null,
+            ),
         )
         productRepository.saveAll(products)
     }
@@ -65,12 +97,15 @@ class ProductServiceIT {
     fun `test lookup by id`() {
       val products = productRepository.findAll();
       assert(products.size > 0);
-      val target = products.first();
+      val target1 = products.first();
+      val target2 = products.last();
 
       val service = ProductServiceImpl(productRepository)
-      val retrieved = service.getById(target.id)
+      val retrieved1 = service.getById(target1.id)
+      val retrieved2 = service.getById(target2.id)
 
-      assertEquals(target, retrieved)
+      assertEquals(target1, retrieved1)
+      assertEquals(target2, retrieved2)
     }
 
     @Test
