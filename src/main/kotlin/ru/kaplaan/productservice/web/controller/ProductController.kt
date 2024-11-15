@@ -44,7 +44,7 @@ class ProductController(
         @RequestParam(required = false, value = "manufacture_cost") manufactureCost: Float?,
         @RequestParam(required = false, value = "unit_of_measure") unitOfMeasure: UnitOfMeasure?,
         @RequestParam(required = false, value = "owner_name") ownerName: String?,
-        @RequestParam(required = false, value = "sortBy") sortBy: SortProductFields,
+        @RequestParam(required = false, value = "sortBy") sortBy: SortProductFields?,
     ): List<ProductDto> {
         val productFilter = ProductFilter(
             name = name,
