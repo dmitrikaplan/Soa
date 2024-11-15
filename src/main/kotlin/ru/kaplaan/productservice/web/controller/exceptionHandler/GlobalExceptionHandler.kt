@@ -6,7 +6,7 @@ import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.RestControllerAdvice
 import ru.kaplaan.productservice.domain.exception.ApiException
-import ru.kaplaan.productservice.domain.exception.notFound.NotFoundException
+import ru.kaplaan.productservice.domain.exception.not_found.NotFoundException
 
 @RestControllerAdvice
 class GlobalExceptionHandler {
@@ -21,20 +21,24 @@ class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(NotFoundException::class)
-    fun handleNotFoundException(e: NotFoundException): ResponseEntity<List<String>> {
+    fun handleNotFoundException(e: NotFoundException): ResponseEntity<List<String?>> {
         return ResponseEntity
             .status(HttpStatus.NOT_FOUND.value())
             .body(
-                listOf(e.errorCode)
+                listOf(
+                    e.errorCode,
+                    e.message
+                )
             )
     }
 
 
     @ExceptionHandler(ApiException::class)
-    fun handleApiException(e: ApiException): ResponseEntity<List<String>> {
+    fun handleApiException(e: ApiException): ResponseEntity<List<String?>> {
         return ResponseEntity.badRequest().body(
             listOf(
-                e.errorCode
+                e.errorCode,
+                e.message
             )
         )
     }

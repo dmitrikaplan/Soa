@@ -24,4 +24,10 @@ interface ProductService {
         pageSize: Int,
         pageNumber: Int
     ): List<Product>
+
+    fun getWithMinName(): Product
+
+    fun getInfoAboutGroupingByManufactureCost(): Map<Float, Int>
+
+    fun getAllByNameSubstring(nameSubstring: String): List<Product>
 }

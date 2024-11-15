@@ -7,7 +7,6 @@ import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.assertThrows
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.http.MediaType
@@ -16,9 +15,8 @@ import org.springframework.test.web.servlet.get
 import org.springframework.test.web.servlet.post
 import ru.kaplaan.productservice.domain.entity.Coordinates
 import ru.kaplaan.productservice.domain.entity.Product
-import ru.kaplaan.productservice.domain.exception.notFound.ProductNotFoundException
+import ru.kaplaan.productservice.domain.exception.not_found.ProductNotFoundException
 import ru.kaplaan.productservice.repository.ProductRepository
-import ru.kaplaan.productservice.service.ProductService
 import ru.kaplaan.productservice.service.impl.ProductServiceImpl
 import ru.kaplaan.productservice.web.dto.CoordinatesDto
 import ru.kaplaan.productservice.web.dto.ProductDto

@@ -2,6 +2,7 @@ package ru.kaplaan.productservice.web.controller
 
 import jakarta.validation.Valid
 import jakarta.validation.constraints.Min
+import jakarta.validation.constraints.NotEmpty
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.*
 import ru.kaplaan.productservice.domain.filter.ProductFilter
@@ -57,6 +58,24 @@ class ProductController(
         )
         return productService.getAll(productFilter, sortBy, pageSize, pageNumber).toDto()
     }
+
+    @GetMapping("/min-name")
+    fun getProductWithMinName(): ProductDto {
+        return productService.getWithMinName().toDto()
+    }
+
+    @GetMapping("/info-about-group-by-manufacture-cost")
+    fun getInfoAboutGroupingByManufactureCost(): Map<Float, Int> {
+        return productService.getInfoAboutGroupingByManufactureCost()
+    }
+
+    @GetMapping("/name")
+    fun getProductsByNameSubstring(
+        @RequestParam(value = "substring") @Valid @NotEmpty nameSubstring: String,
+    ): List<ProductDto> {
+        return productService.getAllByNameSubstring(nameSubstring).toDto()
+    }
+
 
     @PutMapping
     fun updateProduct(@RequestBody @Validated(OnUpdate::class) productDto: ProductDto): ProductDto {

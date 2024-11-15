@@ -3,7 +3,7 @@ package ru.kaplaan.productservice.repository
 import org.springframework.stereotype.Repository
 import ru.kaplaan.productservice.domain.entity.Product
 import ru.kaplaan.productservice.domain.exception.CannotSaveException
-import ru.kaplaan.productservice.domain.exception.notFound.ProductNotFoundException
+import ru.kaplaan.productservice.domain.exception.not_found.ProductNotFoundException
 import java.util.concurrent.CopyOnWriteArrayList
 
 @Repository
