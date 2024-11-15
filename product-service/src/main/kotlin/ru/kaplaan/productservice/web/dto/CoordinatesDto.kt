@@ -1,7 +1,6 @@
 package ru.kaplaan.productservice.web.dto
 
 import jakarta.validation.constraints.Max
-import jakarta.validation.constraints.Min
 import jakarta.validation.constraints.NotNull
 import ru.kaplaan.productservice.domain.validation.Greater
 import ru.kaplaan.productservice.web.validation.OnCreate

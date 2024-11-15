@@ -23,6 +23,7 @@ val springDocVersion = "2.6.0"
 
 dependencies {
     //starters
+    implementation("org.springframework.boot:spring-boot-starter-security")
     implementation("org.springframework.boot:spring-boot-starter-validation")
     implementation("org.springframework.boot:spring-boot-starter-web")
 
