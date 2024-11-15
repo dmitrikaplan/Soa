@@ -3,9 +3,10 @@ package ru.kaplaan.productservice.service.impl
 import org.springframework.stereotype.Service
 import ru.kaplaan.productservice.domain.entity.Product
 import ru.kaplaan.productservice.domain.exception.FieldNotComparableException
-import ru.kaplaan.productservice.domain.exception.notFound.FieldNotFoundException
 import ru.kaplaan.productservice.domain.exception.PageNumberTooLargeException
+import ru.kaplaan.productservice.domain.exception.notFound.FieldNotFoundException
 import ru.kaplaan.productservice.domain.exception.notFound.ProductNotFoundException
+import ru.kaplaan.productservice.domain.filter.ProductFilter
 import ru.kaplaan.productservice.repository.ProductRepository
 import ru.kaplaan.productservice.service.ProductService
 import kotlin.reflect.KProperty1
@@ -24,7 +25,7 @@ class ProductServiceImpl(
         productRepository.saveAll(products)
     }
 
-    override fun getById(id: Long): Product {
+    override fun getById(id: Int): Product {
        return productRepository.findById(id)
             ?: throw ProductNotFoundException()
     }
@@ -33,20 +34,32 @@ class ProductServiceImpl(
         return productRepository.update(product)
     }
 
-    override fun deleteById(id: Long) {
+    override fun deleteById(id: Int) {
         return productRepository.deleteById(id)
     }
 
-    override fun getAll(fieldName: String, pageSize: Int, pageNumber: Int): List<Product> {
+    override fun getAll(
+        fieldName: String,
+        filters: List<ProductFilter>,
+        pageSize: Int,
+        pageNumber: Int
+    ): List<Product> {
+
         val sortedProducts = sortProductsByField(
             products = productRepository.findAll(),
             fieldName = fieldName
-        ).chunked(pageSize)
+        )
 
-        if(sortedProducts.size < pageNumber)
+        //TODO filter
+
+
+
+        val productsPages = sortedProducts.chunked(pageSize)
+
+        if(productsPages.size < pageNumber)
             throw PageNumberTooLargeException()
 
-        return sortedProducts[pageNumber - 1]
+        return productsPages[pageNumber - 1]
     }
 
     private fun sortProductsByField(products: List<Product>, fieldName: String): List<Product> {

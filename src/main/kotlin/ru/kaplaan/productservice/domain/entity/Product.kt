@@ -25,12 +25,12 @@ class Product(
     val owner: Person?
 ){
 
-    val id: Long = productId++
+    val id: Int = productId++
     val creationDate: LocalDate = LocalDate.now()
 
 
     companion object{
-        private var productId: Long = 1
+        private var productId: Int = 1
     }
 
 }

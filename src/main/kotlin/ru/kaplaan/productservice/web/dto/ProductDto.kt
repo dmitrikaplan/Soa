@@ -15,17 +15,17 @@ data class ProductDto(
     val name: String,
     @field:NotNull(message = "Coordinates не можкт быть null!", groups = [OnCreate::class, OnUpdate::class])
     val coordinates: CoordinatesDto,
-    @field:NotNull(message = "Стоймость не может быть null!", groups = [OnCreate::class, OnUpdate::class])
     @field:Min(1, message = "Стоймость должна быть больше 0!", groups = [OnCreate::class, OnUpdate::class])
-    val price: Double,
-    val manufactureCost: Float?,
+    val price: Long?,
+    @field:NotNull(groups = [OnCreate::class, OnUpdate::class])
+    val manufactureCost: Float,
     val unitOfMeasure: UnitOfMeasure?,
     @Validated
     val owner: PersonDto?
 ){
     @field:Null(message = "Id должно быть не null!", groups = [OnCreate::class])
     @field:NotNull(message = "Id не может быть null!", groups = [OnUpdate::class])
-    var id: Long? = null
+    var id: Int? = null
 
     @field:Null(message = "CreationDate должно быть не null!", groups = [OnCreate::class])
     @field:NotNull(message = "CreationDate не может быть null!", groups = [OnUpdate::class])

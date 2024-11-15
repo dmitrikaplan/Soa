@@ -25,7 +25,7 @@ class ProductRepository {
         throw CannotSaveException()
     }
 
-    fun findById(id: Long): Product? =
+    fun findById(id: Int): Product? =
         products.find { it.id == id }
 
 
@@ -41,7 +41,7 @@ class ProductRepository {
     }
 
 
-    fun deleteById(id: Long) {
+    fun deleteById(id: Int) {
         val index = products.indexOfFirst { it.id == id }
 
         if(index == -1)

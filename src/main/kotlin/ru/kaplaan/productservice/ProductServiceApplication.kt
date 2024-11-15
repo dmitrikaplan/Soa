@@ -19,24 +19,24 @@ class ProductServiceApplication(
             listOf(
                 Product(
                     name = "Пицца",
-                    coordinates = Coordinates(0, 1.0f),
-                    price = 100.0,
+                    coordinates = Coordinates(0, 1),
+                    price = 100,
                     manufactureCost = 56.0f,
                     unitOfMeasure = UnitOfMeasure.KILOGRAMS,
                     owner = null
                 ),
                 Product(
                     name = "Роллы",
-                    coordinates = Coordinates(0, 1.0f),
-                    price = 10.0,
+                    coordinates = Coordinates(0, 1),
+                    price = 10,
                     manufactureCost = 6.0f,
                     unitOfMeasure = UnitOfMeasure.KILOGRAMS,
                     owner = null
                 ),
                 Product(
                     name = "Гречка",
-                    coordinates = Coordinates(0, 1.0f),
-                    price = 78.0,
+                    coordinates = Coordinates(0, 1),
+                    price = 78,
                     manufactureCost = 56.0f,
                     unitOfMeasure = UnitOfMeasure.KILOGRAMS,
                     owner = null

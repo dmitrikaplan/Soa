@@ -1,6 +1,5 @@
 package ru.kaplaan.productservice.domain.entity
 
-import com.fasterxml.jackson.annotation.JsonProperty
 import jakarta.validation.constraints.Max
 import ru.kaplaan.productservice.domain.validation.Greater
 
