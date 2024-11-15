@@ -2,17 +2,12 @@ package ru.kaplaan.productservice.service.impl
 
 import org.springframework.stereotype.Service
 import ru.kaplaan.productservice.domain.entity.Product
-import ru.kaplaan.productservice.domain.exception.FieldNotComparableException
 import ru.kaplaan.productservice.domain.exception.PageNumberTooLargeException
-import ru.kaplaan.productservice.domain.exception.notFound.FieldNotFoundException
 import ru.kaplaan.productservice.domain.exception.notFound.ProductNotFoundException
 import ru.kaplaan.productservice.domain.filter.ProductFilter
+import ru.kaplaan.productservice.domain.sorting.SortProductFields
 import ru.kaplaan.productservice.repository.ProductRepository
 import ru.kaplaan.productservice.service.ProductService
-import kotlin.reflect.KProperty1
-import kotlin.reflect.full.memberProperties
-
-const val pageSize = 10
 
 @Service
 class ProductServiceImpl(
@@ -41,14 +36,19 @@ class ProductServiceImpl(
     }
 
     override fun getAll(
+        productFilter: ProductFilter,
+        sortProductFields: SortProductFields?,
+        pageSize: Int,
         pageNumber: Int
     ): List<Product> {
 
-        val sortedProducts = productRepository.findAll().sortedBy { it.id }
-
-        //TODO filter
-
-        val productsPages = sortedProducts.chunked(pageSize)
+        val productsPages = productRepository
+            .findAll()
+            .filter { productFilter.matches(it) }
+            .let {
+                sortProductFields?.sorted(it) ?: it
+            }
+            .chunked(pageSize)
 
         if(productsPages.size < pageNumber)
             throw PageNumberTooLargeException()
