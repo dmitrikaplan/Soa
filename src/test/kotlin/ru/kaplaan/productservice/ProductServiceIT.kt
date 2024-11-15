@@ -2,7 +2,6 @@ package ru.kaplaan.productservice
 
 import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.ObjectMapper
-import org.hibernate.validator.internal.constraintvalidators.bv.number.bound.MaxValidatorForNumber
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
@@ -22,9 +21,6 @@ import ru.kaplaan.productservice.web.dto.UnitOfMeasure
     ],
 )
 class ProductServiceIT {
-
-    @Autowired
-    private lateinit var maxValidatorForNumber: MaxValidatorForNumber
 
     @Autowired
     lateinit var mvc: MockMvc
