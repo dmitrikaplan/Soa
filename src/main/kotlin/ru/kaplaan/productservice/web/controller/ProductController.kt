@@ -35,7 +35,7 @@ class ProductController(
 
     @GetMapping("/{pageNumber}")
     fun getAllProducts(
-        @PathVariable @Min(1) pageNumber: Int,
+        @PathVariable @Valid @Min(1) pageNumber: Int,
         //@RequestBody @Valid filters: List<ProductFilter>
     ): List<ProductDto> {
         return productService.getAll(pageNumber).toDto()
