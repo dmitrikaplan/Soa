@@ -2,7 +2,9 @@ package ru.kaplaan.productservice
 
 import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.ObjectMapper
+import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
@@ -10,6 +12,10 @@ import org.springframework.http.MediaType
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.get
 import org.springframework.test.web.servlet.post
+import ru.kaplaan.productservice.domain.entity.Coordinates
+import ru.kaplaan.productservice.domain.entity.Product
+import ru.kaplaan.productservice.repository.ProductRepository
+import ru.kaplaan.productservice.service.ProductService
 import ru.kaplaan.productservice.web.dto.CoordinatesDto
 import ru.kaplaan.productservice.web.dto.ProductDto
 import ru.kaplaan.productservice.web.dto.UnitOfMeasure
@@ -27,6 +33,27 @@ class ProductServiceIT {
 
     @Autowired
     lateinit var objectMapper: ObjectMapper
+
+    @Autowired
+    lateinit var productRepository: ProductRepository
+
+    @BeforeEach
+    fun beforeEach(){
+        val product1 = Product(
+            name = "productName",
+            coordinates = Coordinates(x = 10, y = 20),
+            price = 100,
+            manufactureCost = 100.0f,
+            unitOfMeasure = UnitOfMeasure.KILOGRAMS,
+            owner = null
+        )
+        productRepository.saveAll(listOf(product1))
+    }
+
+    @AfterEach
+    fun afterEach() {
+        productRepository.clear()
+    }
 
     @Test
     fun `save valid product`() {

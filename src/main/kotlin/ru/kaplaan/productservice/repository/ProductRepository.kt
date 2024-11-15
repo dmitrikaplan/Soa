@@ -52,4 +52,9 @@ class ProductRepository {
 
     fun findAll(): List<Product> =
         products
+
+
+    fun clear() {
+        products.clear()
+    }
 }
