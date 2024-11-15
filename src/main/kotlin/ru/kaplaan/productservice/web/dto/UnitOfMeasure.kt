@@ -1,7 +1,10 @@
 package ru.kaplaan.productservice.web.dto
 
 enum class UnitOfMeasure {
-    KILOGRAMS,
+    UNITS,
+
     CENTIMETERS,
-    MILLIGRAMS
+
+    KILOGRAMS,
+    MILLIGRAMS,
 }
