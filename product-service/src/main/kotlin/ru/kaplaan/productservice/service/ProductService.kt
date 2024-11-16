@@ -21,8 +21,8 @@ interface ProductService {
     fun getAll(
         productFilter: ProductFilter,
         sortProductFields: SortProductFields?,
-        pageSize: Int,
-        pageNumber: Int
+        pageSize: Int?,
+        pageNumber: Int?
     ): List<Product>
 
     fun getWithMinName(): Product
@@ -30,4 +30,6 @@ interface ProductService {
     fun getInfoAboutGroupingByManufactureCost(): Map<Float, Int>
 
     fun getAllByNameSubstring(nameSubstring: String): List<Product>
+
+    fun getAllByPriceFilter(priceFrom: Long, priceTo: Long): List<Product>
 }

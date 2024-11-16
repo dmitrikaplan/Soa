@@ -1,7 +1,7 @@
 package ru.kaplaan.productservice.web.mapper
 
-import ru.kaplaan.productservice.domain.entity.Person
 import ru.kaplaan.productservice.web.dto.PersonDto
+import ru.kaplaan.productservice.domain.entity.Person
 
 fun PersonDto.toEntity() =
     Person(

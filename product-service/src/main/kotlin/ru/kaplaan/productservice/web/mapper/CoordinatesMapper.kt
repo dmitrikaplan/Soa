@@ -1,7 +1,7 @@
 package ru.kaplaan.productservice.web.mapper
 
-import ru.kaplaan.productservice.domain.entity.Coordinates
 import ru.kaplaan.productservice.web.dto.CoordinatesDto
+import ru.kaplaan.productservice.domain.entity.Coordinates
 
 fun CoordinatesDto.toEntity(): Coordinates =
     Coordinates(

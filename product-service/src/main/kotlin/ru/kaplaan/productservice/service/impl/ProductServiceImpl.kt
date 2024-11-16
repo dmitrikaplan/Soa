@@ -1,5 +1,6 @@
 package ru.kaplaan.productservice.service.impl
 
+import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 import ru.kaplaan.productservice.domain.entity.Product
 import ru.kaplaan.productservice.domain.exception.PageNumberTooLargeException
@@ -38,8 +39,8 @@ class ProductServiceImpl(
     override fun getAll(
         productFilter: ProductFilter,
         sortProductFields: SortProductFields?,
-        pageSize: Int,
-        pageNumber: Int
+        pageSize: Int?,
+        pageNumber: Int?
     ): List<Product> {
 
         val productsPages = productRepository
@@ -48,12 +49,20 @@ class ProductServiceImpl(
             .let {
                 sortProductFields?.sorted(it) ?: it
             }
-            .chunked(pageSize)
+            .let { products ->
+                pageSize?.let {
+                    products.chunked(pageSize)
+                } ?: listOf(products)
+            }
 
-        if(productsPages.size < pageNumber)
-            throw PageNumberTooLargeException()
+        if (pageNumber != null) {
+            if (productsPages.size < pageNumber)
+                throw PageNumberTooLargeException()
 
-        return productsPages[pageNumber - 1]
+            return productsPages[pageNumber - 1]
+        }
+
+        return productsPages.first()
     }
 
     override fun getWithMinName(): Product {
@@ -68,5 +77,13 @@ class ProductServiceImpl(
 
     override fun getAllByNameSubstring(nameSubstring: String): List<Product> {
         return productRepository.findAll().filter { it.name.contains(nameSubstring) }
+    }
+
+    override fun getAllByPriceFilter(priceFrom: Long, priceTo: Long): List<Product> {
+        return productRepository.findAll().filter {
+                    it.price != null &&
+                    it.price >= priceFrom &&
+                    it.price <= priceTo
+        }
     }
 }

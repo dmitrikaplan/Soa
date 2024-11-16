@@ -1,10 +1,10 @@
-package ru.kaplaan.productservice.web.dto
+package ru.kaplaan.apiservice.web.dto
 
 import jakarta.validation.constraints.Max
 import jakarta.validation.constraints.NotNull
-import ru.kaplaan.productservice.web.validation.OnCreate
-import ru.kaplaan.productservice.web.validation.OnUpdate
-import validation.Greater
+import ru.kaplaan.apiservice.web.validation.OnCreate
+import ru.kaplaan.apiservice.web.validation.OnUpdate
+import ru.kaplaan.apiservice.web.validation.Greater
 
 data class CoordinatesDto(
     @field:NotNull(message = "x не может быть null!", groups = [OnCreate::class, OnUpdate::class])

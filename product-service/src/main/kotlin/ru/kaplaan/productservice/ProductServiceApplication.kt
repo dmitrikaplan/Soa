@@ -1,12 +1,12 @@
 package ru.kaplaan.productservice
 
+import ru.kaplaan.productservice.web.dto.UnitOfMeasure
 import jakarta.annotation.PostConstruct
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 import ru.kaplaan.productservice.domain.entity.Coordinates
 import ru.kaplaan.productservice.domain.entity.Product
 import ru.kaplaan.productservice.service.ProductService
-import ru.kaplaan.productservice.web.dto.UnitOfMeasure
 
 @SpringBootApplication
 class ProductServiceApplication(

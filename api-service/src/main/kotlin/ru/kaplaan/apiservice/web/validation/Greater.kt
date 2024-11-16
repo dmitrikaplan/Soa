@@ -1,6 +1,7 @@
-package ru.kaplaan.productservice.domain.validation
+package ru.kaplaan.apiservice.web.validation
 
 import jakarta.validation.Constraint
+import validation.GreaterValidator
 import kotlin.reflect.KClass
 
 @MustBeDocumented
@@ -17,5 +18,3 @@ annotation class Greater(
     val groups: Array<KClass<out Any>> = [],
     val payload: Array<KClass<out Any>> = []
 )
-
-

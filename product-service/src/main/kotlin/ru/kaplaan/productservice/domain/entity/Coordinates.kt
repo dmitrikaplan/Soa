@@ -1,7 +1,7 @@
 package ru.kaplaan.productservice.domain.entity
 
 import jakarta.validation.constraints.Max
-import ru.kaplaan.productservice.domain.validation.Greater
+import validation.Greater
 
 class Coordinates(
     @field:Greater(value = -642)

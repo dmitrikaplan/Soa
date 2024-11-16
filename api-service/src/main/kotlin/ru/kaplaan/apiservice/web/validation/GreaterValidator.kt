@@ -1,7 +1,8 @@
-package ru.kaplaan.productservice.domain.validation
+package validation
 
 import jakarta.validation.ConstraintValidator
 import jakarta.validation.ConstraintValidatorContext
+import ru.kaplaan.apiservice.web.validation.Greater
 import kotlin.properties.Delegates
 
 class GreaterValidator: ConstraintValidator<Greater, Int> {
