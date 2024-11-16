@@ -14,6 +14,9 @@ import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.get
 import org.springframework.test.web.servlet.post
 import org.springframework.test.web.servlet.MvcResult
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers
+import org.springframework.test.web.servlet.result.MockMvcResultHandlers
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
 import ru.kaplaan.productservice.domain.entity.Coordinates
 import ru.kaplaan.productservice.domain.entity.Product
 import ru.kaplaan.productservice.domain.exception.not_found.ProductNotFoundException
@@ -97,11 +100,29 @@ class ProductServiceIT {
       val products = productRepository.findAll();
       assert(products.size > 0);
       val target1: Product = products.first();
-      val retrieved1: ProductDto = getAllProducts()!!.first();
+      val target2: Product = products.last();
 
-      assertEquals(target1.name, retrieved1.name)
-      assertEquals(target1.price, retrieved1.price)
-      assertEquals(target1.manufactureCost, retrieved1.manufactureCost)
+      val res1: MvcResult = mvc
+        .perform(MockMvcRequestBuilders.get("/products/" + target1.id))
+        .andExpect(MockMvcResultMatchers.status().isOk())
+        .andReturn();
+      val res1json: String = res1.getResponse().getContentAsString();
+      val res1obj = objectMapper.readValue(res1json, ProductDto::class.java)
+
+      val res2: MvcResult = mvc
+        .perform(MockMvcRequestBuilders.get("/products/" + target2.id))
+        .andExpect(MockMvcResultMatchers.status().isOk())
+        .andReturn();
+      val res2json: String = res2.getResponse().getContentAsString();
+      val res2obj= objectMapper.readValue(res2json, ProductDto::class.java)
+
+      assertEquals(target1.name, res1obj.name)
+      assertEquals(target1.price, res1obj.price)
+      assertEquals(target1.manufactureCost, res1obj.manufactureCost)
+
+      assertEquals(target2.name, res2obj.name)
+      assertEquals(target2.price, res2obj.price)
+      assertEquals(target2.manufactureCost, res2obj.manufactureCost)
     }
 
     @Test
@@ -159,6 +180,9 @@ class ProductServiceIT {
     }
 
 
+    /// XXX(sonya): дима, это подстава, эта функция не работает,
+    //              мог бы хоть пометить что не рабочая, я кучу времени убила
+    //              a.k.a. я потратила на тебя лучшие годы своей жизни
     fun getAllProducts(): List<ProductDto>? {
         return mvc.get("products/1")
             .andExpect {
