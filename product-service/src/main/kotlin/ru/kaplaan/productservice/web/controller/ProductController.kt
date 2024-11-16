@@ -1,7 +1,7 @@
 package ru.kaplaan.productservice.web.controller
 
-import ru.kaplaan.productservice.web.dto.ProductDto
-import ru.kaplaan.productservice.web.dto.UnitOfMeasure
+import io.swagger.v3.oas.annotations.Operation
+import io.swagger.v3.oas.annotations.responses.ApiResponse
 import jakarta.validation.Valid
 import jakarta.validation.constraints.Min
 import jakarta.validation.constraints.NotEmpty
@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.*
 import ru.kaplaan.productservice.domain.filter.ProductFilter
 import ru.kaplaan.productservice.domain.sorting.SortProductFields
 import ru.kaplaan.productservice.service.ProductService
+import ru.kaplaan.productservice.web.dto.ProductDto
+import ru.kaplaan.productservice.web.dto.UnitOfMeasure
 import ru.kaplaan.productservice.web.mapper.toDto
 import ru.kaplaan.productservice.web.mapper.toEntity
 import ru.kaplaan.productservice.web.validation.OnCreate
@@ -22,6 +24,11 @@ class ProductController(
 ) {
 
     @PostMapping
+    @Operation(
+        responses = [
+            ApiResponse(description = "Validation error", responseCode = "400")
+        ]
+    )
     fun save(
         @RequestBody @Validated(OnCreate::class)
         productDto: ProductDto
@@ -30,11 +37,23 @@ class ProductController(
     }
 
     @GetMapping("/{id}")
+    @Operation(
+        responses = [
+            ApiResponse(description = "Product not found", responseCode = "404"),
+            ApiResponse(description = "Validation error", responseCode = "400")
+        ]
+    )
     fun getProductByd(@Valid @Min(1) @PathVariable("id") id: Int): ProductDto {
         return productService.getById(id).toDto()
     }
 
     @GetMapping
+    @Operation(
+        responses = [
+            ApiResponse(description = "Page number too large", responseCode = "400"),
+            ApiResponse(description = "Validation error", responseCode = "400")
+        ]
+    )
     fun getAllProducts(
         @RequestParam @Valid @Min(1) pageNumber: Int?,
         @RequestParam @Valid @Min(1) pageSize: Int?,
@@ -60,6 +79,11 @@ class ProductController(
     }
 
     @GetMapping("/min-name")
+    @Operation(
+        responses = [
+            ApiResponse(description = "Product not found", responseCode = "404")
+        ]
+    )
     fun getProductWithMinName(): ProductDto {
         return productService.getWithMinName().toDto()
     }
@@ -70,14 +94,24 @@ class ProductController(
     }
 
     @GetMapping("/filter/price/{price-from}/{price-to}")
+    @Operation(
+        responses = [ApiResponse(description = "Validation error", responseCode = "400")
+        ]
+    )
     fun getAllProductsByPriceFilter(
-        @PathVariable("price-from") priceFrom: Long,
-        @PathVariable("price-to") priceTo: Long
+        @PathVariable("price-from") @Valid @Min(1) priceFrom: Long,
+        @PathVariable("price-to") @Valid @Min(1) priceTo: Long
     ): List<ProductDto> {
         return productService.getAllByPriceFilter(priceFrom, priceTo).toDto()
     }
 
     @GetMapping("/name")
+    @Operation(
+        responses = [
+            ApiResponse(description = "Product not found", responseCode = "404"),
+            ApiResponse(description = "Validation error", responseCode = "400")
+        ]
+    )
     fun getProductsByNameSubstring(
         @RequestParam(value = "substring") @Valid @NotEmpty nameSubstring: String,
     ): List<ProductDto> {
@@ -85,11 +119,23 @@ class ProductController(
     }
 
     @PutMapping
+    @Operation(
+        responses = [
+            ApiResponse(description = "Product not found", responseCode = "404"),
+            ApiResponse(description = "Validation error", responseCode = "400")
+        ]
+    )
     fun updateProduct(@RequestBody @Validated(OnUpdate::class) productDto: ProductDto): ProductDto {
         return productService.update(productDto.toEntity()).toDto()
     }
 
     @DeleteMapping("/{id}")
+    @Operation(
+        responses = [
+            ApiResponse(description = "Product not found", responseCode = "404"),
+            ApiResponse(description = "Validation error", responseCode = "400")
+        ]
+    )
     fun deleteProductById(@Valid @Min(1) @PathVariable("id") id: Int) {
         productService.deleteById(id)
     }

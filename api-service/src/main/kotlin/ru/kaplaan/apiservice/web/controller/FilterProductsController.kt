@@ -1,5 +1,7 @@
 package ru.kaplaan.apiservice.web.controller
 
+import io.swagger.v3.oas.annotations.Operation
+import io.swagger.v3.oas.annotations.responses.ApiResponse
 import jakarta.validation.Valid
 import jakarta.validation.constraints.Min
 import org.springframework.web.bind.annotation.GetMapping
@@ -17,6 +19,11 @@ class FilterProductsController(
 ) {
 
     @GetMapping("/filter/price/{price-from}/{price-to}")
+    @Operation(
+        responses = [
+            ApiResponse(description = "Validation error", responseCode = "400")
+        ]
+    )
     fun filterProductsByPrice(
         @PathVariable("price-from") @Valid @Min(0) priceFrom: Long,
         @PathVariable("price-to") @Valid @Min(0) priceTo: Long
@@ -25,6 +32,10 @@ class FilterProductsController(
     }
 
 
+    @Operation(
+        responses = [ApiResponse(description = "Validation error", responseCode = "400")
+        ]
+    )
     @GetMapping("/filter/unit-of-measure/{unit-of-measure}")
     fun getAllProductsByUnitOfMeasure(
         @PathVariable("unit-of-measure") unitOfMeasure: UnitOfMeasure,
