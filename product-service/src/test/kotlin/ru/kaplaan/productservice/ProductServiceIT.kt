@@ -13,6 +13,7 @@ import org.springframework.http.MediaType
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.get
 import org.springframework.test.web.servlet.post
+import org.springframework.test.web.servlet.MvcResult
 import ru.kaplaan.productservice.domain.entity.Coordinates
 import ru.kaplaan.productservice.domain.entity.Product
 import ru.kaplaan.productservice.domain.exception.not_found.ProductNotFoundException
@@ -43,7 +44,7 @@ class ProductServiceIT {
     fun beforeEach(){
         val products = listOf(
             Product(
-                name = "Menstrual pads",
+                name = "Needles",
                 coordinates = Coordinates(x = 10, y = 20),
                 price = 100,
                 manufactureCost = 100.0f,
@@ -51,7 +52,7 @@ class ProductServiceIT {
                 owner = null,
             ),
             Product(
-                name = "Menstrual cups",
+                name = "Blisters",
                 coordinates = Coordinates(x = 10, y = 20),
                 price = 250,
                 manufactureCost = 100.0f,
@@ -89,6 +90,18 @@ class ProductServiceIT {
     @AfterEach
     fun afterEach() {
         productRepository.clear()
+    }
+
+    @Test
+    fun `mvc test lookup by id`(){
+      val products = productRepository.findAll();
+      assert(products.size > 0);
+      val target1: Product = products.first();
+      val retrieved1: ProductDto = getAllProducts()!!.first();
+
+      assertEquals(target1.name, retrieved1.name)
+      assertEquals(target1.price, retrieved1.price)
+      assertEquals(target1.manufactureCost, retrieved1.manufactureCost)
     }
 
     @Test
