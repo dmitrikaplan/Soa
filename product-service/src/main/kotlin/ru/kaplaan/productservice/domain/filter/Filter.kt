@@ -37,7 +37,7 @@ class ProductFilter(
 
 class OwnerNameFilter(private val ownerName: String?) : Filter {
     override fun matches(product: Product): Boolean {
-        return ownerName == null || ownerName == product.owner?.name
+        return ownerName == null || product.owner?.name == null || ownerName == product.owner.name
     }
 }
 
