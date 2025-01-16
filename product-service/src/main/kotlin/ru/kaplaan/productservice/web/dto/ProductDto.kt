@@ -23,12 +23,9 @@ data class ProductDto(
     @Validated
     val owner: PersonDto?
 ){
-    @field:Null(message = "Id должно быть не null!", groups = [OnCreate::class])
-    @field:NotNull(message = "Id не может быть null!", groups = [OnUpdate::class])
+    @field:Null(message = "Id должно быть null!", groups = [OnCreate::class, OnUpdate::class])
     var id: Int? = null
 
-    @field:Null(message = "CreationDate должно быть не null!", groups = [OnCreate::class])
-    @field:NotNull(message = "CreationDate не может быть null!", groups = [OnUpdate::class])
+    @field:Null(message = "CreationDate должно быть null!", groups = [OnCreate::class, OnUpdate::class])
     var creationDate: LocalDate? = null
-
 }

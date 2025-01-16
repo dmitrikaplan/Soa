@@ -118,12 +118,12 @@ class ProductController(
         return productService.getAllByNameSubstring(nameSubstring).toDto()
     }
 
-    @PutMapping
+    @PutMapping("/{productId}")
     @Operation(
         responses = [
             ApiResponse(description = "Product not found", responseCode = "404"),
             ApiResponse(description = "Validation error", responseCode = "400")
-        ]
+        ],
     )
     fun updateProduct(@RequestBody @Validated(OnUpdate::class) productDto: ProductDto): ProductDto {
         return productService.update(productDto.toEntity()).toDto()

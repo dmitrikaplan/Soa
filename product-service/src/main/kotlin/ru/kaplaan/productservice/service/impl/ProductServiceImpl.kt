@@ -15,6 +15,8 @@ class ProductServiceImpl(
     private val productRepository: ProductRepository
 ): ProductService {
 
+    private val log = LoggerFactory.getLogger(ProductServiceImpl::class.java)
+
     override fun save(product: Product): Product {
         return productRepository.save(product)
     }
@@ -56,6 +58,8 @@ class ProductServiceImpl(
             }
 
         if (pageNumber != null) {
+            log.info("products pages is ${productsPages.size}")
+            log.info("page number is $pageNumber")
             if (productsPages.size < pageNumber)
                 throw PageNumberTooLargeException()
 
