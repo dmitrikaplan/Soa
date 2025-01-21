@@ -1,0 +1,47 @@
+pipeline{
+	agent any
+
+    stages{
+		stage("api-service build"){
+			steps{
+				sh '''
+					curl --json '{"chat_id": "-1002010516337", "text": "#api\napi-service deploy pipeline started" }' \
+						 https://api.telegram.org/bot7131840357:AAEIxrvvdTf532WG72PzC3xHsZf0hh6BItQ/sendMessage
+					cd api-service
+                    gradle clean build
+                '''
+            }
+        }
+        stage("api-service docker build") {
+			steps{
+				sh '''
+					cd api-service
+					docker build -t api .
+				'''
+            }
+        }
+
+        stage("api-service deploy") {
+			steps{
+				sh '''
+					cd api-service
+					docker rm -f api-service-container
+					docker run -p 127.0.0.1:8765:8080 --name "#api\napi-service-container" --network=host -d api
+					curl --json '{"chat_id": "-1002010516337", "text": "api-service deploy pipeline finished" }' \
+						 https://api.telegram.org/bot7131840357:AAEIxrvvdTf532WG72PzC3xHsZf0hh6BItQ/sendMessage
+				'''
+            }
+        }
+    }
+    
+    post {
+		aborted {
+			script{
+				sh '''
+					curl --json '{"chat_id": "-1002010516337", "text": "#api\napi-service deploy pipeline aborted" }' \
+						 https://api.telegram.org/bot7131840357:AAEIxrvvdTf532WG72PzC3xHsZf0hh6BItQ/sendMessage
+				'''
+            }
+        }
+    }
+}

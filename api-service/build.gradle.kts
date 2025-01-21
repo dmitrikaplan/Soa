@@ -6,7 +6,7 @@ plugins {
 }
 
 group = "ru.kaplaan"
-version = "0.0.1-SNAPSHOT"
+version = "1.0.0"
 val springDocVersion = "2.6.0"
 
 java {

@@ -1,0 +1,47 @@
+pipeline{
+	agent any
+
+    stages{
+		stage("product-server build"){
+			steps{
+				sh '''
+					curl --json '{"chat_id": "-1002010516337", "text": "#product-service\nproduct-service deploy pipeline started" }' \
+						 https://api.telegram.org/bot7131840357:AAEIxrvvdTf532WG72PzC3xHsZf0hh6BItQ/sendMessage
+					cd product-service
+                    gradle clean build
+                '''
+            }
+        }
+        stage("product-server docker build") {
+			steps{
+				sh '''
+					cd product-service
+					docker build -t product .
+				'''
+            }
+        }
+
+        stage("product-server deploy") {
+			steps{
+				sh '''
+					cd product-service
+					docker rm -f product-service-container
+					docker run -p 127.0.0.1:8765:8081 --name "product-service-container" --network=host -d product
+					curl --json '{"chat_id": "-1002010516337", "text": "#product-service\nproduct-service deploy pipeline finished" }' \
+						 https://api.telegram.org/bot7131840357:AAEIxrvvdTf532WG72PzC3xHsZf0hh6BItQ/sendMessage
+				'''
+            }
+        }
+    }
+    
+    post {
+		aborted {
+			script{
+				sh '''
+					curl --json '{"chat_id": "-1002010516337", "text": "#product-service\nproduct-service deploy pipeline aborted" }' \
+						 https://api.telegram.org/bot7131840357:AAEIxrvvdTf532WG72PzC3xHsZf0hh6BItQ/sendMessage
+				'''
+            }
+        }
+    }
+}

@@ -3,5 +3,7 @@ plugins {
 }
 rootProject.name = "soa"
 
-include(":product-service")
-include(":api-service")
+include(
+    "api-service",
+    "product-service"
+)
