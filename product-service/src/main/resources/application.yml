@@ -1,2 +1,14 @@
 server:
   port: 8081
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/product
+    username: product
+    password: product
+    driver-class-name: org.postgresql.Driver
+  sql:
+    init:
+      schema-locations: classpath:sql/schema.sql
+#      data-locations: classpath:sql/init.sql
+      mode: always

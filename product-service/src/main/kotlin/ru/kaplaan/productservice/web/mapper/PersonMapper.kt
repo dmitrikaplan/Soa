@@ -4,11 +4,11 @@ import ru.kaplaan.productservice.web.dto.PersonDto
 import ru.kaplaan.productservice.domain.entity.Person
 
 fun PersonDto.toEntity() =
-    Person(
-        name = this.name,
-        birthday = this.birthday,
-        passportID = this.passportID
-    )
+    Person().apply {
+        name = this@toEntity.name
+        birthday = this@toEntity.birthday
+        passportID = this@toEntity.passportID
+    }
 
 
 fun Person.toDto() =

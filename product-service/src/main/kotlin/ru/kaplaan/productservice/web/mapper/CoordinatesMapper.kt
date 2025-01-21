@@ -4,10 +4,7 @@ import ru.kaplaan.productservice.web.dto.CoordinatesDto
 import ru.kaplaan.productservice.domain.entity.Coordinates
 
 fun CoordinatesDto.toEntity(): Coordinates =
-    Coordinates(
-        x = this.x,
-        y = this.y
-    )
+    Coordinates(x, y)
 
 fun Coordinates.toDto(): CoordinatesDto =
     CoordinatesDto(

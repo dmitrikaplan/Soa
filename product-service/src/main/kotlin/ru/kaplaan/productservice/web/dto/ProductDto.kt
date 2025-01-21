@@ -22,7 +22,7 @@ data class ProductDto(
     val owner: PersonDto?
 ){
     @field:Null(message = "Id должно быть null!")
-    var id: Int? = null
+    var id: Long? = null
 
     @field:Null(message = "CreationDate должно быть null!")
     var creationDate: LocalDate? = null

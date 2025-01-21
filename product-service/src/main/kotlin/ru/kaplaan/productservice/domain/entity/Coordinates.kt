@@ -1,11 +1,19 @@
 package ru.kaplaan.productservice.domain.entity
 
-import jakarta.validation.constraints.Max
-import validation.Greater
+import org.springframework.data.annotation.Id
+import org.springframework.data.relational.core.mapping.Column
+import org.springframework.data.relational.core.mapping.Table
+import kotlin.properties.Delegates
 
+@Table("coordinates")
 class Coordinates(
-    @field:Greater(value = -642)
-    val x: Int,
-    @field:Max(value = 643)
-    val y: Int
-)
+    var x: Int,
+    var y: Int
+) {
+
+    @Id
+    var id: Long? = null
+
+    @Column("product_id")
+    var productId: Long? = null
+}

@@ -4,21 +4,22 @@ import ru.kaplaan.productservice.web.dto.ProductDto
 import ru.kaplaan.productservice.domain.entity.Product
 
 fun ProductDto.toEntity() =
-    Product(
-        name = this.name,
-        coordinates = this.coordinates.toEntity(),
-        manufactureCost = this.manufactureCost,
-        price = this.price,
-        unitOfMeasure = this.unitOfMeasure,
-        owner = this.owner?.toEntity()
-    )
+    Product().apply {
+        name = this@toEntity.name
+        coordinates = this@toEntity.coordinates.toEntity()
+        manufactureCost = this@toEntity.manufactureCost
+        price = this@toEntity.price
+        unitOfMeasure = this@toEntity.unitOfMeasure
+        owner = this@toEntity.owner?.toEntity()
+
+    }
 
 
 fun Product.toDto() =
     ProductDto(
         name = this.name,
         coordinates = this.coordinates.toDto(),
-        manufactureCost = this.manufactureCost,
+        manufactureCost = this.manufactureCost!!,
         price = this.price,
         unitOfMeasure = this.unitOfMeasure,
         owner = this.owner?.toDto()

@@ -26,11 +26,14 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-security")
     implementation("org.springframework.boot:spring-boot-starter-validation")
     implementation("org.springframework.boot:spring-boot-starter-web")
-    //implementation("org.springframework.boot:spring-boot-starter-jdbc")
+    implementation("org.springframework.boot:spring-boot-starter-data-jdbc")
 
-
+    //swagger
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:$springDocVersion")
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-api:$springDocVersion")
+
+    //database
+    implementation("org.postgresql:postgresql")
 
     //kotlin
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")

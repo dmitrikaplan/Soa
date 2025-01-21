@@ -1,34 +1,35 @@
 package ru.kaplaan.productservice.domain.entity
 
-import jakarta.validation.constraints.NotEmpty
-import jakarta.validation.constraints.NotNull
-import jakarta.validation.constraints.Positive
+import org.springframework.data.annotation.Id
+import org.springframework.data.relational.core.mapping.Column
+import org.springframework.data.relational.core.mapping.MappedCollection
+import org.springframework.data.relational.core.mapping.Table
 import ru.kaplaan.productservice.web.dto.UnitOfMeasure
 import java.time.LocalDate
 
-class Product(
-    @field:NotNull
-    @field:NotEmpty
-    var name: String,
+@Table("product")
+class Product {
 
-    @field:NotNull
-    var coordinates: Coordinates,
+    @Id
+    var id: Long? = null
 
-    @field:Positive
-    var price: Long?,
+    lateinit var name: String
 
-    @field:NotNull
-    var manufactureCost: Float,
-    var unitOfMeasure: UnitOfMeasure?,
-    var owner: Person?
-){
+    @field:MappedCollection(idColumn = "product_id")
+    lateinit var coordinates: Coordinates
 
-    var id: Int = productId++
+    var price: Long? = null
+
+    @Column("manufacture_cost")
+    var manufactureCost: Float? = null
+
+    @Column("unit_of_measure")
+    var unitOfMeasure: UnitOfMeasure? = null
+
+    @MappedCollection(idColumn = "product_id")
+    var owner: Person? = null
+
+    @Column("creation_date")
     var creationDate: LocalDate = LocalDate.now()
-
-
-    companion object{
-        private var productId: Int = 1
-    }
 
 }
