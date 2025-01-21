@@ -9,6 +9,8 @@ import ru.kaplaan.productservice.domain.filter.ProductFilter
 import ru.kaplaan.productservice.domain.sorting.SortProductFields
 import ru.kaplaan.productservice.repository.ProductRepository
 import ru.kaplaan.productservice.service.ProductService
+import ru.kaplaan.productservice.web.dto.UpdateProductDto
+import ru.kaplaan.productservice.web.mapper.toEntity
 
 @Service
 class ProductServiceImpl(
@@ -25,16 +27,27 @@ class ProductServiceImpl(
         productRepository.saveAll(products)
     }
 
-    override fun getById(id: Int): Product {
+    override fun getById(id: Long): Product {
        return productRepository.findById(id)
             ?: throw ProductNotFoundException()
     }
 
-    override fun update(product: Product): Product {
+    override fun update(updateProductDto: UpdateProductDto, productId: Long): Product {
+        val product = productRepository.findById(productId)
+            ?: throw ProductNotFoundException()
+
+        product.apply {
+            this.name = updateProductDto.name ?: product.name
+            this.coordinates = updateProductDto.coordinates?.toEntity() ?: product.coordinates
+            this.price = updateProductDto.price ?: this.price
+            this.manufactureCost = updateProductDto.manufactureCost ?: product.manufactureCost
+            this.unitOfMeasure = updateProductDto.unitOfMeasure ?: product.unitOfMeasure
+            this.owner = updateProductDto.owner?.toEntity() ?: product.owner
+        }
         return productRepository.update(product)
     }
 
-    override fun deleteById(id: Int) {
+    override fun deleteById(id: Long) {
         return productRepository.deleteById(id)
     }
 
@@ -83,11 +96,12 @@ class ProductServiceImpl(
         return productRepository.findAll().filter { it.name.contains(nameSubstring) }
     }
 
+    @Synchronized
     override fun getAllByPriceFilter(priceFrom: Long, priceTo: Long): List<Product> {
         return productRepository.findAll().filter {
                     it.price != null &&
-                    it.price >= priceFrom &&
-                    it.price <= priceTo
+                    it.price!! >= priceFrom &&
+                    it.price!! <= priceTo
         }
     }
 }

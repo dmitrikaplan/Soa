@@ -25,8 +25,8 @@ class ProductRepository {
         throw CannotSaveException()
     }
 
-    fun findById(id: Int): Product? =
-        products.find { it.id == id }
+    fun findById(id: Long): Product? =
+        products.find { it.id == id.toInt() }
 
 
     fun update(product: Product): Product {
@@ -41,11 +41,11 @@ class ProductRepository {
     }
 
 
-    fun deleteById(id: Int) {
-        val index = products.indexOfFirst { it.id == id }
+    fun deleteById(id: Long) {
+        val index = products.indexOfFirst { it.id == id.toInt() }
 
         if(index == -1)
-            throw Exception() //TODO: кинуть конкретный exception, что элемент не найден
+            throw ProductNotFoundException()
 
         products.removeAt(index)
     }

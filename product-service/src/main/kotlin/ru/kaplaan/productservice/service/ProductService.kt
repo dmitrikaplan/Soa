@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service
 import ru.kaplaan.productservice.domain.entity.Product
 import ru.kaplaan.productservice.domain.filter.ProductFilter
 import ru.kaplaan.productservice.domain.sorting.SortProductFields
+import ru.kaplaan.productservice.web.dto.UpdateProductDto
 
 @Service
 interface ProductService {
@@ -12,11 +13,11 @@ interface ProductService {
 
     fun saveAll(products: List<Product>)
 
-    fun getById(id: Int): Product
+    fun getById(id: Long): Product
 
-    fun update(product: Product): Product
+    fun update(updateProductDto: UpdateProductDto, productId: Long): Product
 
-    fun deleteById(id: Int)
+    fun deleteById(id: Long)
 
     fun getAll(
         productFilter: ProductFilter,

@@ -12,10 +12,9 @@ import ru.kaplaan.productservice.domain.sorting.SortProductFields
 import ru.kaplaan.productservice.service.ProductService
 import ru.kaplaan.productservice.web.dto.ProductDto
 import ru.kaplaan.productservice.web.dto.UnitOfMeasure
+import ru.kaplaan.productservice.web.dto.UpdateProductDto
 import ru.kaplaan.productservice.web.mapper.toDto
 import ru.kaplaan.productservice.web.mapper.toEntity
-import ru.kaplaan.productservice.web.validation.OnCreate
-import ru.kaplaan.productservice.web.validation.OnUpdate
 
 @RestController
 @RequestMapping("/products")
@@ -30,10 +29,36 @@ class ProductController(
         ]
     )
     fun save(
-        @RequestBody @Validated(OnCreate::class)
+        @RequestBody @Validated
         productDto: ProductDto
     ): ProductDto {
         return productService.save(productDto.toEntity()).toDto()
+    }
+
+    @PutMapping("/{productId}")
+    @Operation(
+        responses = [
+            ApiResponse(description = "Product not found", responseCode = "404"),
+            ApiResponse(description = "Validation error", responseCode = "400")
+        ],
+    )
+    fun updateProduct(
+        @PathVariable productId: Long,
+        @RequestBody @Validated
+        updateProductDto: UpdateProductDto
+    ): ProductDto {
+        return productService.update(updateProductDto, productId).toDto()
+    }
+
+    @DeleteMapping("/{id}")
+    @Operation(
+        responses = [
+            ApiResponse(description = "Product not found", responseCode = "404"),
+            ApiResponse(description = "Validation error", responseCode = "400")
+        ]
+    )
+    fun deleteProductById(@Valid @Min(1) @PathVariable("id") id: Long) {
+        productService.deleteById(id)
     }
 
     @GetMapping("/{id}")
@@ -43,7 +68,7 @@ class ProductController(
             ApiResponse(description = "Validation error", responseCode = "400")
         ]
     )
-    fun getProductByd(@Valid @Min(1) @PathVariable("id") id: Int): ProductDto {
+    fun getProductByd(@Valid @Min(1) @PathVariable("id") id: Long): ProductDto {
         return productService.getById(id).toDto()
     }
 
@@ -117,28 +142,4 @@ class ProductController(
     ): List<ProductDto> {
         return productService.getAllByNameSubstring(nameSubstring).toDto()
     }
-
-    @PutMapping("/{productId}")
-    @Operation(
-        responses = [
-            ApiResponse(description = "Product not found", responseCode = "404"),
-            ApiResponse(description = "Validation error", responseCode = "400")
-        ],
-    )
-    fun updateProduct(@RequestBody @Validated(OnUpdate::class) productDto: ProductDto): ProductDto {
-        return productService.update(productDto.toEntity()).toDto()
-    }
-
-    @DeleteMapping("/{id}")
-    @Operation(
-        responses = [
-            ApiResponse(description = "Product not found", responseCode = "404"),
-            ApiResponse(description = "Validation error", responseCode = "400")
-        ]
-    )
-    fun deleteProductById(@Valid @Min(1) @PathVariable("id") id: Int) {
-        productService.deleteById(id)
-    }
-
-
 }

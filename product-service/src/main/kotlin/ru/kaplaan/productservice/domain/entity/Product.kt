@@ -9,22 +9,22 @@ import java.time.LocalDate
 class Product(
     @field:NotNull
     @field:NotEmpty
-    val name: String,
+    var name: String,
 
     @field:NotNull
-    val coordinates: Coordinates,
+    var coordinates: Coordinates,
 
     @field:Positive
-    val price: Long?,
+    var price: Long?,
 
     @field:NotNull
-    val manufactureCost: Float,
-    val unitOfMeasure: UnitOfMeasure?,
-    val owner: Person?
+    var manufactureCost: Float,
+    var unitOfMeasure: UnitOfMeasure?,
+    var owner: Person?
 ){
 
-    val id: Int = productId++
-    val creationDate: LocalDate = LocalDate.now()
+    var id: Int = productId++
+    var creationDate: LocalDate = LocalDate.now()
 
 
     companion object{
