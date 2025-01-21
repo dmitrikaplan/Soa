@@ -1,4 +1,4 @@
-FROM bellsoft/liberica-openjdk-alpine as build
+FROM eclipse-temurin:21 as build
 
 WORKDIR /source
 
@@ -12,7 +12,7 @@ RUN ./gradlew build
 
 #--------------------------------------------------------------------------#
 
-FROM bellsoft/liberica-openjdk-alpine
+FROM eclipse-temurin:21
 
 EXPOSE 8080
 COPY --from=build /source/build/libs/product-service-1.0.0.jar /product.jar
