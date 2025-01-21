@@ -7,6 +7,7 @@ COPY /src /source/src
 COPY build.gradle.kts /source/
 COPY gradlew /source
 COPY settings.gradle.kts /source
+COPY gradle.properties ~/.gradle/
 
 RUN ./gradlew build
 
