@@ -5,5 +5,7 @@ rootProject.name = "soa"
 
 include(
     "api-service",
-    "product-service"
+    "product-service",
+    "eureka-server",
+    "config-server"
 )

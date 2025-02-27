@@ -20,6 +20,7 @@ repositories {
 }
 
 val springDocVersion = "2.6.0"
+extra["springCloudVersion"] = "2023.0.3"
 
 dependencies {
     //starters
@@ -27,6 +28,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-validation")
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.boot:spring-boot-starter-data-jdbc")
+    implementation("org.springframework.cloud:spring-cloud-starter-consul-discovery")
 
     //swagger
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:$springDocVersion")
@@ -44,6 +46,12 @@ dependencies {
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
     testImplementation("org.springframework.security:spring-security-test")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+}
+
+dependencyManagement {
+    imports {
+        mavenBom("org.springframework.cloud:spring-cloud-dependencies:${property("springCloudVersion")}")
+    }
 }
 
 kotlin {

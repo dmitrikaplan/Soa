@@ -1,5 +1,10 @@
 server:
-  port: 8081
+  port: 8443
+#  ssl:
+#    enabled: true
+#    key-store: classpath:product-keystore.jks
+#    key-store-password: password
+#    key-password: password
 
 spring:
   datasource:
@@ -10,5 +15,12 @@ spring:
   sql:
     init:
       schema-locations: classpath:sql/schema.sql
-#      data-locations: classpath:sql/init.sql
       mode: always
+
+  cloud:
+    consul:
+      retry:
+        max-attempts: 5
+        enabled: true
+      host: soa-consul
+      port: 8500
