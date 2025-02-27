@@ -1,0 +1,23 @@
+server:
+  port: 8888
+
+spring:
+  application:
+    name: configserver
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://github.com/dmitrikaplan/soa-configs.git
+          username: dmitrikaplan
+          password: password
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+    allow-redirects: false
+    eureka-server-connect-timeout-seconds: 5
+    eureka-server-read-timeout-seconds: 5
+    register-with-eureka: true
+  instance:
+    prefer-ip-address: true
