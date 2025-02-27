@@ -7,5 +7,6 @@ include(
     "api-service",
     "product-service",
     "eureka-server",
-    "config-server"
+    "config-server",
+    "zuul-proxy"
 )

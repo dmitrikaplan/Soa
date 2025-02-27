@@ -19,9 +19,7 @@ eureka:
   client:
     service-url:
       defaultZone: http://localhost:8761/eureka
-    allow-redirects: false
     eureka-server-connect-timeout-seconds: 5
     eureka-server-read-timeout-seconds: 5
     register-with-eureka: true
-  instance:
-    prefer-ip-address: true
+    fetch-registry: true
